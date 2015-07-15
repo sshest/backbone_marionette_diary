@@ -1,0 +1,29 @@
+events: {
+				            'onReady': onPlayerReady,
+				            'onStateChange': onPlayerStateChange
+				        },
+				        loaded: false,
+					});
+				var	onPlayerReady = function(event) {
+					debugger;
+						event.target.playVideo();
+					};
+				var	onPlayerStateChange = function(event) {
+						debugger;
+						var img = document.createElement('img');
+						if (event.data == YT.PlayerState.PLAYING && !player.loaded) {
+					        setTimeout(function(){
+								stopVideo;
+						        player.loaded = true;
+						        img.setAttribute({
+						        	alt: 'Превью невозможно',
+						        	src: 'http://img.youtube.com/vi/' + id + '/default.jpg'
+						        });
+						        var $vThumb = $('#videoThumbnail');
+						        img.appendTo($vThumb);
+					        }, 1000);
+					        
+					        //
+		        		} else {
+
+		        		}
