@@ -9,10 +9,10 @@ define(["app", "issues/list/list_view", "tablesorter"], function(App, View) {
                       value  = data.val;
                     }
                     var loadList = (attr && value)? App.request("issue:search", attr, value): App.request("issue:list");
-                    debugger;
+                    
                     var self = List.Controller;
                     $.when(loadList).done(function(issues) {
-                        debugger;
+                        
                         var view  = new View.List({collection: issues});
                         App.mainRegion.show(view);
                         

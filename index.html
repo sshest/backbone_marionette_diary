@@ -77,7 +77,34 @@
 		                 <div class="control-group">
 		                    <label class="control-label" for="issueDescription">Описание</label>
 		                    <div class="controls">
-		                        <textarea name="issueDescription" id="issueDescription" placeholder="Тут будут Ваши мысли об этом событии..."  cols='40' rows='7'><%= issueDescription %></textarea>
+		                        <div id='editorPalette'>
+									<div class="palette-wrapper">
+										<label><input type="checkbox" name="i" value="italic">Курсив</label>
+										<label><input type="checkbox" name="b" value="bold">Жирный</label>
+										<label><input type="checkbox" name="u" value="underline">Подчеркивание</label>|
+									</div>
+									<div class='palette-wrapper' id='colwrapper'>
+										<label class="palette-label">Цвет текста</label>
+										<div id='colpalette' class='hidden'>
+											<label><input type='radio' name='color' value="red">Красный</label> 
+											<label><input type='radio' name='color' value="yellow">Желтый</label>
+											<label><input type='radio' name='color' value="green">Зеленый</label>
+											<label><input type='radio' name='color' value="blue">Синий</label>
+											<label><input type='radio' name='color' value="brown">Коричневый</label>
+											<label><input type='radio' name='color' value="black">Черный</label>
+										</div>
+										
+									|</div>
+									<div class="palette-wrapper">
+										<label>Размер шрифта<select id='font-size'>
+											<option value='1'>10</option>
+											<option value='2'>12</option>
+											<option value='3' selected>14</option>
+											<option value='4'>16</option>
+										</select></label>
+									</div>
+								</div>
+		                        <iframe name="issueDescription" id="issueDescription" cols='80' rows='7'><%= issueDescription %></iframe>
 		                        <span class="help-inline"></span> 
 		                    </div>
 		                </div>

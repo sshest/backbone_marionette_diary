@@ -14,7 +14,9 @@ requirejs.config({
     async: "vendor/requirejs-plugins/src/async",
     youtube: "vendor/youtube-iframe-api/youtube.iframe-api",
     googlemap: "vendor/requirejs-google-maps/dist/GoogleMap",
-    tablesorter: "vendor/bower_components/tablesorter/jquery.tablesorter"
+    tablesorter: "vendor/bower_components/tablesorter/jquery.tablesorter",
+    editor: "vendor/wysihtml5-0.3.0.min",
+    editorRules: "vendor/advanced"
   },
 
   shim: {

@@ -4,16 +4,50 @@ define(["app", "youtube", "googlemap"], function(App) {
 		View.EditForm = Marionette.ItemView.extend({
 			tagName: 'div',
 			ui: {
-				adress_input: '#adress-input'
+				adress_input: '#adress-input',
+				colpalette: '#colpalette'
 			},
 
 			events: {
 				'submit form': 'submitClicked',
-				'change input#videoUrl': 'showThumb'
+				'change input#videoUrl': 'showThumb',
+				'click .palette-label': 'toggleColorPalette',
+				'click input[type="checkbox"], #colpalette': 'styleApply',
+				'change #font-size': 'styleApply'
 			},
 
 			template: "#edit",
-
+			
+			onShow: function() {
+			 	document.getElementById("issueDescription").contentWindow.document.designMode = "On";
+			},
+			toggleColorPalette: function(ev) {
+					var colpalette = document.getElementById("colpalette");
+				    if(colpalette.className.indexOf('hidden') != -1) {
+						colpalette.className = colpalette.className.replace(/hidden/, '');
+				    } else if (colpalette.className.length === 0) {
+							colpalette.className = 'hidden';
+							} else {
+								colpalette.className += ' hidden';
+							}
+					return false;
+			},
+			styleApply: function(ev) {
+				debugger;
+				var area = document.getElementById("issueDescription"), text = area.contentWindow.document.body.innerHTML;
+	
+				var target = ev.target||ev.srcElement;
+				
+				if (target.name === 'i' || target.name === 'b' || target.name === 'u') {
+					area.contentWindow.document.execCommand(target.value, false, null);
+				}
+				if (ev.currentTarget.id === 'colpalette'){
+					area.contentWindow.document.execCommand('ForeColor', false, target.value);
+				}
+				if (target.id === 'font-size') {
+					area.contentWindow.document.execCommand('fontSize', false, target.value);
+				}
+			},
 			showThumb: function() {
 				var id = (this.$('#videoUrl').val()).split('=')[1],
 					player = new YT.Player('videoThumbnail', {
