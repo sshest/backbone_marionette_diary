@@ -33,7 +33,7 @@ define(["app", "youtube", "googlemap"], function(App) {
 					return false;
 			},
 			styleApply: function(ev) {
-				debugger;
+				
 				var area = document.getElementById("issueDescription"), text = area.contentWindow.document.body.innerHTML;
 	
 				var target = ev.target||ev.srcElement;
