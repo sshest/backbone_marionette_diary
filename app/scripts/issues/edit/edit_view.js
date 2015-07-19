@@ -79,7 +79,7 @@ define(["app", "youtube", "googlemap"], function(App) {
 			},
 			
 			setMarker: function(event) {
-					var map = event.map || this;
+					var map = event.map || this.map || this;
 					var marker, markers = map.markers;
 					debugger;
 					if (markers.length > 0) {
@@ -165,6 +165,7 @@ define(["app", "youtube", "googlemap"], function(App) {
 							map: map,                            
 							draggable: true
 						});
+						google.maps.event.addListener(marker, 'dragend', this.setMarker);
 					} else {
 						google.maps.event.addListenerOnce(map, 'click', this.setMarker);
 					}
