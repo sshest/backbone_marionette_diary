@@ -59,7 +59,7 @@ define(["app", "backbone", "localstorage"], function(App) {
 		        var defer = $.Deferred();
 		        issues.fetch({
 		        	success: function(data){
-		          		debugger;
+		          		
 		          		defer.resolve(data);
 		        	}
 		    	});
@@ -68,16 +68,14 @@ define(["app", "backbone", "localstorage"], function(App) {
 
 		    //Получение одной записи по id
 		    getIssue: function(Id){
-		    	debugger;
+		    	
 		        var issue = new Models.Issue({id: Id});
 		        var defer = $.Deferred();
 		        issue.fetch({
 			  	    success: function(data){
-			  	    	debugger;
 			          	defer.resolve(data);
 			    	},
 			      	error: function(data){
-			      		debugger;
 			        	defer.resolve(data);
 			        	console.log('Single issue load error');
 			      	}

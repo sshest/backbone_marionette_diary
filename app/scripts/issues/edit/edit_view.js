@@ -5,7 +5,8 @@ define(["app", "youtube", "googlemap"], function(App) {
 			tagName: 'div',
 			ui: {
 				adress_input: '#adress-input',
-				colpalette: '#colpalette'
+				colpalette: '#colpalette',
+				redactor: '#description'
 			},
 
 			events: {
@@ -19,7 +20,12 @@ define(["app", "youtube", "googlemap"], function(App) {
 			template: "#edit",
 			
 			onShow: function() {
-			 	document.getElementById("issueDescription").contentWindow.document.designMode = "On";
+			 	var area = this.ui.redactor[0];
+			 	area.contentWindow.document.designMode = "On";
+			 	var attitude = this.model.get('attitude');
+			 					debugger;
+			 	var a = this.$('#selectAttitude').find("[value='" + attitude + "']");
+			 	a.attr('selected', true);
 			},
 			toggleColorPalette: function(ev) {
 					var colpalette = document.getElementById("colpalette");
@@ -34,7 +40,7 @@ define(["app", "youtube", "googlemap"], function(App) {
 			},
 			styleApply: function(ev) {
 				
-				var area = document.getElementById("issueDescription"), text = area.contentWindow.document.body.innerHTML;
+				var area = document.getElementById("description"), text = area.contentWindow.document.body.innerHTML;
 	
 				var target = ev.target||ev.srcElement;
 				
@@ -58,8 +64,12 @@ define(["app", "youtube", "googlemap"], function(App) {
 			submitClicked: function(ev) {
 				ev.preventDefault();
 				var data = {};
+				var description = this.ui.redactor[0].contentWindow.document.body.innerHTML;
 				if(this.$('#issueTitle').val()) {data.issueTitle = this.$('#issueTitle').val()}; 
-				if(this.$('#issueDescription').val()) {data.issueDescription = this.$('#issueDescription').val()};
+				//if(this.$('#issueDescription').val()) {data.issueDescription = this.$('#issueDescription').val()};
+				if(description) {
+					data.issueDescription = description;
+				}
 				if(this.$('#selectAttitude').val()) {data.attitude = this.$('#selectAttitude').val()};
 				if(this.$('#date').val()) {data.date = this.$('#date').val()};
 				if(this.$('#videoUrl').val()) {data.videoUrl = this.$('#videoUrl').val()};

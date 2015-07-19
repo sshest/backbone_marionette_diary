@@ -12,6 +12,7 @@ define(["app", "issues/edit/edit_view"], function(App, View) {
               
               $.when(shown).done(function() {
                 view.showMap();
+                document.getElementById('description').contentDocument.body.innerHTML = issue.get('issueDescription');
               });
           
               self.listenTo(view, 'form:submit', function(data) {
