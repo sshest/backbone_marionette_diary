@@ -6,29 +6,29 @@ define(["app", "issues/edit/edit_view"], function(App, View) {
             var issue = new App.Models.Issue();
             var view = new View.EditForm({model: issue});
             var self = Create.Controller;
-                App.mainRegion.show(view);
-                var map = view.showMap();
+            App.mainRegion.show(view);
+            var map = view.showMap();
 
-                self.listenTo(view, 'form:submit', function(data) {
-                    var saving = issue.save(data);
-                    
-                    if(saving) {
-                        $.when(saving).done(function() {
-                            App.trigger('issues:list');
-                        }).fail(function(response) {
-                            throw error('Saving failed');//Ошибка
-                        console.log(response);
-                        });
-                    } else {
-                        //Вызываем события "data:invalid" с объектом-коллекцией ошибок
-                        view.triggerMethod('data:invalid', issue.validationError);
-                    }
-                });
+            self.listenTo(view, 'form:submit', function(data) {
+                var saving = issue.save(data);
+                
+                if(saving) {
+                    $.when(saving).done(function() {
+                        App.trigger('issues:list');
+                    }).fail(function(response) {
+                        throw error('Saving failed');//Ошибка
+                    console.log(response);
+                    });
+                } else {
+                    //Вызываем события "data:invalid" с объектом-коллекцией ошибок
+                    view.triggerMethod('data:invalid', issue.validationError);
+                }
+            });
+            App.commands.execute('show:heading', 'Создание новой записи');
         });        
       }
     });
     Create.Controller = new Controller();
-    App.commands.execute('show:heading', 'Создание новой записи');
   });
   return App.Create.Controller;
 });

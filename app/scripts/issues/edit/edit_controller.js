@@ -31,11 +31,11 @@ define(["app", "issues/edit/edit_view"], function(App, View) {
                 }
               });
             });
+            App.commands.execute('show:heading', 'Редактирование записи');
         });      
     	}
     });
     Edit.Controller = new Controller();
-    App.commands.execute('show:heading', 'Редактирование записи');
   });
   return App.Edit.Controller;
 });

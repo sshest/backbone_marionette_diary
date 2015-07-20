@@ -24,7 +24,6 @@ define(["app", "youtube", "googlemap"], function(App) {
 			 	var area = this.ui.redactor[0];
 			 	area.contentWindow.document.designMode = "On";
 			 	var attitude = this.model.get('attitude');
-			 					debugger;
 			 	var a = this.$('#selectAttitude').find("[value='" + attitude + "']");
 			 	a.attr('selected', true);
 			 	var id = (this.$('#videoUrl').val()).split('=')[1];
@@ -62,7 +61,6 @@ define(["app", "youtube", "googlemap"], function(App) {
 			showThumb: function(ev) {
 				var id = $(ev.target).val().split('=')[1];
 				this.ui.preview.find('img').attr('src', 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
-					debugger;
 			},
 			submitClicked: function(ev) {
 				ev.preventDefault();
@@ -102,7 +100,6 @@ define(["app", "youtube", "googlemap"], function(App) {
 					function getMarkerCoords(ev) {
 							markerCoords = JSON.stringify(ev.latLng);
 							$('#markerCoords').val(markerCoords);
-							debugger;
 					};         
 					
 
@@ -112,7 +109,7 @@ define(["app", "youtube", "googlemap"], function(App) {
 			}, 
 
 			coordsByAddress: function(map, self) {
-					return function(){debugger;
+					return function(){
 						var ev = arguments[0];
 						
 						if (ev.target.value.length < 3) return;
@@ -196,6 +193,7 @@ define(["app", "youtube", "googlemap"], function(App) {
 		App.commands.setHandler('show:heading', function(text) { 
 			this.$(".title-h").text(text);
 		});
+		debugger;
 	});
 	return App.EditForm.View;
 });
