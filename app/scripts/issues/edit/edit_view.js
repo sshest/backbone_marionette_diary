@@ -6,7 +6,8 @@ define(["app", "youtube", "googlemap"], function(App) {
 			ui: {
 				adress_input: '#adress-input',
 				colpalette: '#colpalette',
-				redactor: '#description'
+				redactor: '#description',
+				preview: '#videoThumbnail'
 			},
 
 			events: {
@@ -26,6 +27,10 @@ define(["app", "youtube", "googlemap"], function(App) {
 			 					debugger;
 			 	var a = this.$('#selectAttitude').find("[value='" + attitude + "']");
 			 	a.attr('selected', true);
+			 	var id = (this.$('#videoUrl').val()).split('=')[1];
+			 	if (id) {
+			 		this.ui.preview.find('img').attr('src', 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
+			 	}
 			},
 			toggleColorPalette: function(ev) {
 					var colpalette = document.getElementById("colpalette");
@@ -54,12 +59,10 @@ define(["app", "youtube", "googlemap"], function(App) {
 					area.contentWindow.document.execCommand('fontSize', false, target.value);
 				}
 			},
-			showThumb: function() {
-				var id = (this.$('#videoUrl').val()).split('=')[1],
-					player = new YT.Player('videoThumbnail', {
-						videoId: id
-
-					});
+			showThumb: function(ev) {
+				var id = $(ev.target).val().split('=')[1];
+				this.ui.preview.find('img').attr('src', 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
+					debugger;
 			},
 			submitClicked: function(ev) {
 				ev.preventDefault();
