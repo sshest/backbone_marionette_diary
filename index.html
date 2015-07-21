@@ -19,6 +19,9 @@
 			    <li><a id="list" href="#">Список событий</a></li>
 			    <li><a id="add" href="#">Добавить новое событие</a></li>
 			    <li><a id="onMap" href="#">Где я был</a></li>
+			    <li id="lastLi"><form class="navbar-search pull-right">
+		  				<input type="text" class="search-query" id="search" placeholder="Поиск по названию">
+					</form></li>
 			</ul>
 		  </div>
 		</div>
@@ -35,7 +38,7 @@
 		</td>
     </script>
     <script type="text/template" id="empty">
-    	<td colspan="5">В Вашем дневнике еще нет записей ни об одном событии!</td>			
+    	<td colspan="5">Записи отсутствуют!</td>			
     </script>
     <script type="text/template" id="listTemplate">
     	<div class="span12">
@@ -50,9 +53,6 @@
 		                <th>Название</th>
 		                <th>Отношение</th>
 		                <th>
-		                	<form class="navbar-search pull-right">
-				  				<input type="text" class="search-query" id="search" placeholder="Искать по названию">
-							</form>
 						</th>
 		            </tr>
 		        </thead>
@@ -173,15 +173,15 @@
 		        </div>
 		        <div class="row">
 		            <div class="container">
-		                <div id='issueDate'><%= date %></div>
+		                <div class="pull-right" id='issueDate'><p>Дата:</p><%= date %></div>
 		            </div>
 		            <div class="container">
 		                <div id='issueDescription'><%= issueDescription %></div>
 		            </div>
-		            <div class="container">
+		            <div class="container video">
 		                <div id='issueVideo'></div>
 		            </div>
-		            <div class="container">
+		            <div class="container map">
 		                <div id='issuePlace'></div>
 		            </div>
 

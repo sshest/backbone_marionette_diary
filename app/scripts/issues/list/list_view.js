@@ -21,26 +21,26 @@ define(["app"], function(App) {
 			tagName:   'div',
 			className: 'row t',
 			template:  "#listTemplate",
-			ui: {
-              input: '#search'
-            },
-            events: {
-              'keypress #search': 'onSearchKeypressed'
-            },
+			// ui: {
+   //            input: '#search'
+   //          },
+            // events: {
+            //   'keypress #search': 'onSearchKeypressed'
+            // },
 
 			childView: View.Issue,
 
 			childViewContainer: 'tbody',
 
 			emptyView: View.Empty,
-			onSearchKeypressed: function(ev) {
-              var searchText = this.ui.input.val().trim();
-              if (ev.which === 13 && searchText) {
-                App.trigger("issues:list", {"attr":"issueTitle", "val":searchText});
-                this.ui.input.val('');
-              }
-              ev.stopPropagation();
-            },
+			// onSearchKeypressed: function(ev) {
+   //            var searchText = this.ui.input.val().trim();
+   //            if (ev.which === 13 && searchText) {
+   //              App.trigger("issues:list", {"attr":"issueTitle", "val":searchText});
+   //              this.ui.input.val('');
+   //            }
+   //            ev.stopPropagation();
+   //          },
             onBeforeShow: function(view) {
             	view.$('.table').tablesorter({});
             }

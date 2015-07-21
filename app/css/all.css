@@ -83,7 +83,9 @@ table tbody tr {
 .controls>iframe {
   width: 418px;
 }
-
+#lastLi{
+  margin-left: 180px;
+}
 #videoThumbnail {
   margin-top: 10px;
   width: 428px;
@@ -94,7 +96,7 @@ table tbody tr {
   width:100%;
 }
 #map, #issueVideo, #issuePlace{
-  
+  display: inline-block;
   margin-top: 10px;
   width: 428px;
   height: 300px;
@@ -136,4 +138,18 @@ label>input[type="checkbox"]{
   width:200px;
   border: 1px solid #b2b2b2;
   background-color: #f5f5f5;
+}
+#issueDate{
+  text-align: right;
+}
+#issueDate > p{
+  display: inline-block;
+  padding: 5px 10px;
+}
+.container.video,
+.container.map{
+  text-align: center;
+}
+#issueDescription{
+  padding: 0px 30px 5px;
 }
