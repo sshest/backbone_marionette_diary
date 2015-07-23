@@ -1,12 +1,12 @@
 define(["app", "backbone", "localstorage"], function(App) { 							
 	App.module("Models", function(Models, App, Backbone, Marionette, $, _){
-		
+		//создаем локальное хранилище для хранения данных модели и коллекции
 		issueStorage = new Backbone.LocalStorage('issues');
-
+		//начало описание модели
 		Models.Issue = Backbone.Model.extend({
 			urlRoot: '/issue',
 			localStorage: issueStorage,
-
+			//значения модели по умолчанию
 			defaults: {
 				issueTitle: '',
 				issueDescription: '',
@@ -15,15 +15,20 @@ define(["app", "backbone", "localstorage"], function(App) {
 				videoUrl: '',
 				coords: ''
 			},
+			//метод, добавлющий уникальный идентификатор модели при ее создании
+			//путем присвоения ему значения текущего времени в мс
 			initialize: function() {
 				if(this.isNew()) this.set('id', Date.now());
 			},
 			
-
+			//валидация проводится средствами плагина Backbone.Validation
 			validation: {
 				issueTitle: {
+					//значение - обязательное
 					required: true,
+					//критерий валидации
 					minLength: 3,
+					//сообщение при непрохождении валидации
 					msg: "Данное поле должно содержать минимум 3 символа"
 				},
 				issueDescription: {
@@ -41,11 +46,14 @@ define(["app", "backbone", "localstorage"], function(App) {
 					msg: "Некорректно введен url"
 				}
 			},
+			//метод для определния соответствия определенного атрибута заданному значению
+			//
 			isMatch: function(reg, attrib) {
 				return reg.test(this.get(attrib));
 			}
-		});
+		});//конец описания модели
 
+		//начало описания коллекции
 		Models.IssueCollection = Backbone.Collection.extend({
 			model: Models.Issue,
 			url: '/list',
@@ -59,10 +67,10 @@ define(["app", "backbone", "localstorage"], function(App) {
 		        var defer = $.Deferred();
 		        issues.fetch({
 		        	success: function(data){
-		          		
 		          		defer.resolve(data);
 		        	}
 		    	});
+		    	//возвращаем копию объекта Deffered с данными коллекции
 		    	return defer.promise();
 			},
 
@@ -83,14 +91,19 @@ define(["app", "backbone", "localstorage"], function(App) {
 		      	return defer.promise();
 		    },
 		    //Получение списка записей по атрибуту, соответствующему переданному значению
+		    //функция принимает название атрибута и значение для проверки
 		    getByAttrib: function(attr, value) { 
 		    	var found, collection = API.getAllIssues();
+		    	//использование Deffered-объекта позволяет применять конструкцию 
+		    	//when ... done для обеспечения синхронного выполнения кода
 		    	$.when(collection).done(function(issues) {
 			    	var pattern = new RegExp(value);
 			    	found = issues.filter(function(issue) {
+			    		//возвращает только модели, соответствующие критерию
 			    		return pattern.test(issue.get(attr));
 					});
 				});
+				//возвращает отфильтрованную коллекцию
 				return new Models.IssueCollection(found);
 		    }
 		};

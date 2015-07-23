@@ -9,9 +9,12 @@
 	<link href="app/css/all.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
+    
+    <!--элементы для привязки регионов-->   
     <div class="container" id="menu-wrapper"></div>
     <div class="container" id="main-wrapper"></div>
-
+    
+    <!--шаблон для отображения меню-->
     <script type="text/template" id="menu">
     	<div class="navbar navbar-inverse">
 		  <div class="navbar-inner">
@@ -26,6 +29,8 @@
 		  </div>
 		</div>
     </script>
+    
+    <!--шаблон для отображения одной записи в таблице-->
     <script type="text/template" id="issue">
     	<td class="date"><%= date %></td>
 		<td class="title"><%= issueTitle %></td>
@@ -37,9 +42,13 @@
 			<button class="btn btn-danger remove" href="#"><i class="fa fa-remove"></i></button>
 		</td>
     </script>
+
+    <!--шаблон для содержимого пустой коллекции-->
     <script type="text/template" id="empty">
     	<td colspan="5">Записи отсутствуют!</td>			
     </script>
+
+    <!--шаблон для отображения таблицы с содержимым коллекции-->
     <script type="text/template" id="listTemplate">
     	<div class="span12">
 		    <div class="row w-title-h">
@@ -61,6 +70,8 @@
 		    </div>
 		</div>	
     </script>
+
+    <!--шаблон для базового представления редактирования/создания записи о событии-->
     <script type="text/template" id="edit">
     	<div class="row">
 		    <div class="span12">
@@ -165,6 +176,8 @@
 		    </div>
 		 </div>	
     </script>
+
+    <!--шаблон для представления содержимого отдельной записи(модели события)-->
     <script type="text/template" id="show">
     	<div class="row">
 		    <div class="span12">
@@ -189,15 +202,18 @@
 		    </div>
 		 </div> 
     </script>
+
+    <!--шаблон для отображения карты-->
     <script type="text/template" id="placesMap">
     	<div class="row">
 	    	
 			<div id="googleMap">
 	    	</div>
     	</div>
-    </script>	
-    <div id="tooltip"></div>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    </script>
+
+    <!--модальное окно, не отображается-->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-header">
 	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 	    <h3 id="myModalLabel">Удаление события</h3>
@@ -210,6 +226,7 @@
 	    <button class="btn btn-primary">Подтвердить удаление</button>
 	  </div>
 	</div>
+	
 	<script data-main="app/scripts/require_main" src="app/scripts/vendor/requirejs/require.js"></script>
 </body>
 </html>

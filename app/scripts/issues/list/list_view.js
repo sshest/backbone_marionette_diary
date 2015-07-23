@@ -1,16 +1,20 @@
 define(["app"], function(App) {
 	App.module("View", function(View, App, Backbone, Marionette, $, _){
+		//представление отдельной модели для отображения во вью коллекции
 		View.Issue = Marionette.ItemView.extend({
 			tagName:  'tr',
 			template: "#issue",
-
+			//события, создаваемые представлением
 			triggers: {
+				//удалить
 				'click .remove': 'issue:remove',
+				//редактировать
 				'click .edit':   'issue:edit',
-				'click'/* .title*/: 'issue:id:show'
+				//показать
+				'click': 'issue:id:show'
 			}
 		});
-
+		//это представление используется, если в коллекции нет моделей для отображения
 		View.Empty = Marionette.ItemView.extend({
 			tagName: 'tr',
 			className: 'emptylist',
@@ -21,27 +25,15 @@ define(["app"], function(App) {
 			tagName:   'div',
 			className: 'row t',
 			template:  "#listTemplate",
-			// ui: {
-   //            input: '#search'
-   //          },
-            // events: {
-            //   'keypress #search': 'onSearchKeypressed'
-            // },
 
 			childView: View.Issue,
 
 			childViewContainer: 'tbody',
 
 			emptyView: View.Empty,
-			// onSearchKeypressed: function(ev) {
-   //            var searchText = this.ui.input.val().trim();
-   //            if (ev.which === 13 && searchText) {
-   //              App.trigger("issues:list", {"attr":"issueTitle", "val":searchText});
-   //              this.ui.input.val('');
-   //            }
-   //            ev.stopPropagation();
-   //          },
+
             onBeforeShow: function(view) {
+            	//делаем таблицу сортируемой с помощью плагина tablesorter
             	view.$('.table').tablesorter({});
             }
 		});

@@ -2,6 +2,7 @@ define(["app"], function(App) {
 	App.module("DiaryApp", function(DiaryApp, App, Backbone, Marionette, $, _){
 	  
 	  DiaryApp.Router = Marionette.AppRouter.extend({
+	    //список роутов
 	    appRoutes: {
 	      "":               "drawMenu",
 	      "list":          "listIssues",
@@ -11,7 +12,7 @@ define(["app"], function(App) {
 	       "places": 		"showMap", 
 	    }
 	  });
-
+	  //API, содержашщий функционал роутера 
 	  var API = {
 	  	drawMenu: function() {
 	  		require(["layouts/menu_controller"], function(controller) {
@@ -52,7 +53,7 @@ define(["app"], function(App) {
 	  	}
 	  };
 
-	  //События вызывающиеся при смене состояния приложения
+	  //Слушатели событий, изменяющие состояния приложения
 	  this.listenTo(App, 'menu:start', function() {  		
 	  	Backbone.history.navigate('');
 	  	API.drawMenu();

@@ -9,7 +9,7 @@ define(["app", "youtube", "googlemap"], function(App) {
 				redactor: '#description',
 				preview: '#videoThumbnail'
 			},
-
+            //список обрабатываемых ДОМ-событий
 			events: {
 				'submit form': 'submitClicked',
 				'change input#videoUrl': 'showThumb',
@@ -17,20 +17,23 @@ define(["app", "youtube", "googlemap"], function(App) {
 				'click input[type="checkbox"], #colpalette': 'styleApply',
 				'change #font-size': 'styleApply'
 			},
-
+			//шаблон для представления
 			template: "#edit",
-			
+			//метод, запускающийся после отображения представления
+			//переключает iframe в редактируемый режим
 			onShow: function() {
 			 	var area = this.ui.redactor[0];
 			 	area.contentWindow.document.designMode = "On";
+			 	//выбираем опцию селекта, исходя из значения свойства attitude модели
 			 	var attitude = this.model.get('attitude');
-			 	var a = this.$('#selectAttitude').find("[value='" + attitude + "']");
-			 	a.attr('selected', true);
+			 	this.$('#selectAttitude').find("[value='" + attitude + "']").attr('selected', true);
+			 	//если поле id модели не пустое, то отображаем превью видео с youtube
 			 	var id = (this.$('#videoUrl').val()).split('=')[1];
 			 	if (id) {
 			 		this.ui.preview.find('img').attr('src', 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
 			 	}
 			},
+			//метод показывающий/скрывающий палитру цветов для выделения текста
 			toggleColorPalette: function(ev) {
 					var colpalette = document.getElementById("colpalette");
 				    if(colpalette.className.indexOf('hidden') != -1) {
@@ -42,6 +45,7 @@ define(["app", "youtube", "googlemap"], function(App) {
 							}
 					return false;
 			},
+			//метод, применяющий стили форматирования к тексту
 			styleApply: function(ev) {
 				
 				var area = document.getElementById("description"), text = area.contentWindow.document.body.innerHTML;
@@ -58,10 +62,13 @@ define(["app", "youtube", "googlemap"], function(App) {
 					area.contentWindow.document.execCommand('fontSize', false, target.value);
 				}
 			},
+			//метод, отображающий превью при изменении поля с адресом видео
 			showThumb: function(ev) {
 				var id = $(ev.target).val().split('=')[1];
 				this.ui.preview.find('img').attr('src', 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
 			},
+			//обработчик отправки формы
+			//задача - собрать значения полей в объект и передать его вместе с событием контроллеру
 			submitClicked: function(ev) {
 				ev.preventDefault();
 				var data = {};
@@ -78,14 +85,19 @@ define(["app", "youtube", "googlemap"], function(App) {
 
 				this.trigger('form:submit', data);
 			},
-			
+			//метод позволяющий установить маркер на карте
+			//может вызываться как при клике на карте (тогда ему передается событие клика),
+			//при вводе в поисковой строке текста,
+			//при отображении представления редактирования 
 			setMarker: function(event) {
 					var map = event.map || this.map || this;
 					var marker, markers = map.markers;
-					debugger;
+					//если карта уже содержит массив маркеров, то помещается первый в место события
+					//таким образом не создается второго и т.д. маркера, мы лишь перемещаем единственный
 					if (markers.length > 0) {
 						marker = markers[0];
 						marker.setPosition(event.latLng);
+						//иначе - создается новый маркер
 					} else {
 						  marker = new google.maps.Marker({
 							position: event.latLng,
@@ -95,34 +107,39 @@ define(["app", "youtube", "googlemap"], function(App) {
 						
 						markers.push(marker);
 					};
+					//после этого карта центрируется по маркеру
 					map.panTo(marker.position);
 					var markerCoords;
 					function getMarkerCoords(ev) {
 							markerCoords = JSON.stringify(ev.latLng);
 							$('#markerCoords').val(markerCoords);
 					};         
-					
-
+					//записываем преобразованные в JSON координаты маркера в скрытое поле ввода
 					getMarkerCoords(event);
-
+					//добавляем как обработчик события перетаскивания маркера функцию getMarkerCoords
+					//для сохранения новый координат маркера 
 					google.maps.event.addListener(marker, 'dragend', getMarkerCoords);
 			}, 
-
+			//метод, запускающий поиск с помощью google Geocoder API
+			//запускается при возникновении события поднятия клавиши 
 			coordsByAddress: function(map, self) {
 					return function(){
 						var ev = arguments[0];
-						
+						//поиск производится при длине введенной строки не менее 3 символов
 						if (ev.target.value.length < 3) return;
 						var geocoder = new google.maps.Geocoder();
 						var geoRequest = {
 							address: self.ui.adress_input.val()
 						};
+						//отправляем запрос - если статус ответа - "ОК",
+						//тогда из ответа определяем координаты первого совпадения
+						//и запускаем метод установки на карту маркера
+						//в иных случаях можно выводить соответствующее информационное сообщение
 						geocoder.geocode(geoRequest, function(result, status) {
 							switch (status) {
 								case "OK": 
 									var location = result[0].geometry.location;
 									var data = {latLng:location, map:map};
-									//если есть еще маркеры на карте - удалить их
 									self.setMarker(data);
 								 	break;
 								case 'ZERO_RESULTS':
@@ -138,15 +155,17 @@ define(["app", "youtube", "googlemap"], function(App) {
 						});
 					};
 			},
-
+			//отображение гугл-карты в представлении
 			showMap: function() {
 					var lat, lon, latitude, longitude;
-					
+					//если есть возможность получить координаты текущего положения пользователя
+					//то используем их как центр карты
 					navigator.geolocation.getCurrentPosition(function(pos) {
 								
 						latitude = pos.coords.latitude;
 						longitude = pos.coords.longitude;
 					});
+					//если нет - центр зададим статично (Харьков)
 					lat = latitude? latitude : 49.9945914; lon = longitude? longitude: 36.2858248;
 					var mapOptions = {
 						zoom: 10,
@@ -155,46 +174,48 @@ define(["app", "youtube", "googlemap"], function(App) {
 					};
 					var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 					map.markers = [];
-
+					//если в модели содержатся координаты
 					if (this.model.get('coords')) {
-							
+						//распарсим их и 	
 						var coords = JSON.parse(this.model.get('coords'));
-												
+						//по этим координатам установим маркер						
 						var marker = new google.maps.Marker({
 							position: new google.maps.LatLng(coords.A, coords.F),
 							map: map,                            
 							draggable: true
 						});
+						//добавим слушателя на завершение перетаскивания маркера
 						google.maps.event.addListener(marker, 'dragend', this.setMarker);
 					} else {
+						//если нет координат в модели, добавляем слушателя клика по карте, который создаст
+						//в месте клика маркер
 						google.maps.event.addListenerOnce(map, 'click', this.setMarker);
 					}
+					//добавляем слушеталя клика в поисковой строке для поиска
+					//с помощью Goecoder
 					google.maps.event.addDomListener(document.getElementById("adress-input"), 'keyup', this.coordsByAddress(map, this));
-
-	
+					//возвращаем карту, т.к. в моем случае метод используется контроллером и ему необходима ссылка на карту
 					return map;
 			},
-
-			
-
+			//если после валидации имеются сообщения об ошибках
+			//он будут выведены в следующих за ними вспомогательных элементах
 			onDataInvalid: function(errors) {
+				//убираем предыдущие сообщения об ошибках и классы
 				this.$el.find('form .error').removeClass('error');
 				this.$el.find('form .help-inline').text('');
-
+				//перебор всех сообщений об ошибках и вывод их эл-тах с классом "help-inline"
+				//имеющих общего родителя с полем, не прошедшим валидацию
 				for(var i in errors) {
 					var field = this.$('[name="' + i + '"]');
 					field.parents('.control-group').addClass('error').find('.help-inline').text(errors[i]);
-					//field.next().text(errors[i]);
 				}
 			}
 		});
-		
-
+		//создаем комманду выводящую в заголовке представления текст
+		//контроллер передаст сюда название события
 		App.commands.setHandler('show:heading', function(text) { 
 			this.$(".title-h").text(text);
 		});
-		debugger;
 	});
 	return App.EditForm.View;
 });
-
