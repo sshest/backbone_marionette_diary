@@ -45,11 +45,6 @@ define(["app", "backbone", "localstorage"], function(App) {
 					pattern: 'url',
 					msg: "Некорректно введен url"
 				}
-			},
-			//метод для определния соответствия определенного атрибута заданному значению
-			//
-			isMatch: function(reg, attrib) {
-				return reg.test(this.get(attrib));
 			}
 		});//конец описания модели
 
