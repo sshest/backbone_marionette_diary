@@ -45,8 +45,8 @@ define(["app", "issues/list/list_view", "tablesorter"], function(App, View) {
                         //тригерит на уровне приложения событие "issue:edit" с привязанным к нему идентификатором модели
                           App.trigger('issue:edit', data.model.get('id'));
                         });
-                        //обработчик события 'childview:issue:id:show' представления списка
-                        self.listenTo(view, 'childview:issue:id:show', function(childView, data) {
+                        //обработчик события 'childview:issue:show' представления списка
+                        self.listenTo(view, 'childview:issue:show', function(childView, data) {
                           //тригерит на уровне приложения событие "issue:show" с привязанным к нему идентификатором модели
                           App.trigger('issue:show', data.model.get('id'));
                         });

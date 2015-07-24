@@ -63,7 +63,7 @@ define(["app", "youtube", "googlemap"], function(App) {
 				}
 			},
 			//метод, отображающий превью при изменении поля с адресом видео
-			showThumb: function(ev) {
+			showThumb: function(ev) {debugger;
 				var id = $(ev.target).val().split('=')[1];
 				this.ui.preview.find('img').attr('src', 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
 			},
@@ -109,9 +109,8 @@ define(["app", "youtube", "googlemap"], function(App) {
 					};
 					//после этого карта центрируется по маркеру
 					map.panTo(marker.position);
-					var markerCoords;
 					function getMarkerCoords(ev) {
-							markerCoords = JSON.stringify(ev.latLng);
+						var	markerCoords = JSON.stringify(ev.latLng);
 							$('#markerCoords').val(markerCoords);
 					};         
 					//записываем преобразованные в JSON координаты маркера в скрытое поле ввода

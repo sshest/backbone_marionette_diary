@@ -11,7 +11,7 @@ define(["app"], function(App) {
 				//редактировать
 				'click .edit':   'issue:edit',
 				//показать
-				'click': 'issue:id:show'
+				'click': 'issue:show'
 			}
 		});
 		//это представление используется, если в коллекции нет моделей для отображения

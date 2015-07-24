@@ -96,11 +96,16 @@ table tbody tr {
   width:100%;
 }
 #map, #issueVideo, #issuePlace{
-  display: inline-block;
   margin-top: 10px;
   width: 428px;
   height: 300px;
   border: 1px solid #e5e5e5;
+}
+#map {
+  display: block;
+}
+#issueVideo, #issuePlace{
+  display: inline-block;
 }
 #googleMap{
   width: 100%;
