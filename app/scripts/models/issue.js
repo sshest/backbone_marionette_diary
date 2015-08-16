@@ -65,7 +65,9 @@ define(["app", "backbone", "localstorage"], function(App) {
 		          		defer.resolve(data);
 		        	}
 		    	});
-		    	//возвращаем копию объекта Deffered с данными коллекции
+		    	//возвращаем промис объекта Deffered с данными коллекции
+		    	//promise используется, чтобы иметь возможность отслеживать его состояние,
+		    	//меняющееся асинхронно
 		    	return defer.promise();
 			},
 

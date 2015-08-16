@@ -20,7 +20,8 @@ define(["app"], function(App) {
 			className: 'emptylist',
 			template: "#empty"
 		});
-
+		//представление списка событий, в нем содержатся ссылки на представления - потомки
+		//и пустое представление (в случае отсутствия в коллекции моделей)
 		View.List = Marionette.CompositeView.extend({
 			tagName:   'div',
 			className: 'row t',
