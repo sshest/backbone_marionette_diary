@@ -1,4 +1,5 @@
-define(["app", "youtube", "googlemap", "syphon"], function(App) {
+define(["app", "youtube", "googlemap", "syphon",
+	"tpl!apps/scripts/templates/edit-form-view.tpl"], function(App, EditTpl) {
 	App.module("EditForm.View", function(View, App, Backbone, Marionette, $, _){
 		//Базовое представление для создания и редактирования
 		View.EditForm = Marionette.ItemView.extend({
@@ -18,7 +19,7 @@ define(["app", "youtube", "googlemap", "syphon"], function(App) {
 				'change #font-size': 'styleApply'
 			},
 			//шаблон для представления
-			template: "#edit",
+			template: EditTpl,
 			//метод, запускающийся после отображения представления
 			//переключает iframe в редактируемый режим
 			onShow: function() {

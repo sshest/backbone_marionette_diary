@@ -1,11 +1,11 @@
-define(["app", "syphon"], function(App) {
+define(["app", "syphon", "tpl!apps/scripts/templates/show-single-view.tpl"], function(App, ShowTpl) {
   //модуль представления содержимого отдельной записи о событии
   App.module("ShowSingle.View", function(View, App, Backbone, Marionette, $, _){
 
     View.ShowSingle = Marionette.ItemView.extend({
       tagName: 'div',
       //шаблон представления
-      template: "#show",
+      template: ShowTpl,
       //метод отображения карты и маркера
       showOnMap: function(coordinates) {
           //распарсить координаты модели

@@ -1,9 +1,12 @@
-define(["app"], function(App) {
+define(["app",
+		"tpl!apps/scripts/templates/list.tpl",
+		"tpl!apps/scripts/templates/issue.tpl",
+		"tpl!apps/scripts/templates/empty.tpl"], function(App, ListTpl, IssueTpl, EmptyTpl) {
 	App.module("View", function(View, App, Backbone, Marionette, $, _){
 		//представление отдельной модели для отображения во вью коллекции
 		View.Issue = Marionette.ItemView.extend({
 			tagName:  'tr',
-			template: "#issue",
+			template: IssueTpl,
 			//события, создаваемые представлением
 			triggers: {
 				//удалить
@@ -18,14 +21,14 @@ define(["app"], function(App) {
 		View.Empty = Marionette.ItemView.extend({
 			tagName: 'tr',
 			className: 'emptylist',
-			template: "#empty"
+			template: EmptyTpl
 		});
 		//представление списка событий, в нем содержатся ссылки на представления - потомки
 		//и пустое представление (в случае отсутствия в коллекции моделей)
 		View.List = Marionette.CompositeView.extend({
 			tagName:   'div',
 			className: 'row t',
-			template:  "#listTemplate",
+			template:  ListTpl,
 
 			childView: View.Issue,
 
