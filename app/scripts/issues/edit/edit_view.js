@@ -1,4 +1,4 @@
-define(["app", "youtube", "googlemap"], function(App) {
+define(["app", "youtube", "googlemap", "syphon"], function(App) {
 	App.module("EditForm.View", function(View, App, Backbone, Marionette, $, _){
 		//Базовое представление для создания и редактирования
 		View.EditForm = Marionette.ItemView.extend({
@@ -24,6 +24,8 @@ define(["app", "youtube", "googlemap"], function(App) {
 			onShow: function() {
 			 	var area = this.ui.redactor[0];
 			 	area.contentWindow.document.designMode = "On";
+			 	var description = this.model.get('issueDescription');
+			 	area.contentDocument.body.innerHTML = description;
 			 	//выбираем опцию селекта, исходя из значения свойства attitude модели
 			 	var attitude = this.model.get('attitude');
 			 	this.$('#selectAttitude').find("[value='" + attitude + "']").attr('selected', true);
@@ -63,7 +65,7 @@ define(["app", "youtube", "googlemap"], function(App) {
 				}
 			},
 			//метод, отображающий превью при изменении поля с адресом видео
-			showThumb: function(ev) {debugger;
+			showThumb: function(ev) {
 				var id = $(ev.target).val().split('=')[1];
 				this.ui.preview.find('img').attr('src', 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
 			},
@@ -71,18 +73,20 @@ define(["app", "youtube", "googlemap"], function(App) {
 			//задача - собрать значения полей в объект и передать его вместе с событием контроллеру
 			submitClicked: function(ev) {
 				ev.preventDefault();
-				var data = {};
+				// var data = {};
+				// var description = this.ui.redactor[0].contentWindow.document.body.innerHTML;
+				// if(this.$('#issueTitle').val()) {data.issueTitle = this.$('#issueTitle').val()}; 
+				// //if(this.$('#issueDescription').val()) {data.issueDescription = this.$('#issueDescription').val()};
+				// if(description) {
+				// 	data.issueDescription = description;
+				// }
+				// if(this.$('#selectAttitude').val()) {data.attitude = this.$('#selectAttitude').val()};
+				// if(this.$('#date').val()) {data.date = this.$('#date').val()};
+				// if(this.$('#videoUrl').val()) {data.videoUrl = this.$('#videoUrl').val()};
+				// if(this.$('#markerCoords').val()) {data.coords = this.$('#markerCoords').val()};
 				var description = this.ui.redactor[0].contentWindow.document.body.innerHTML;
-				if(this.$('#issueTitle').val()) {data.issueTitle = this.$('#issueTitle').val()}; 
-				//if(this.$('#issueDescription').val()) {data.issueDescription = this.$('#issueDescription').val()};
-				if(description) {
-					data.issueDescription = description;
-				}
-				if(this.$('#selectAttitude').val()) {data.attitude = this.$('#selectAttitude').val()};
-				if(this.$('#date').val()) {data.date = this.$('#date').val()};
-				if(this.$('#videoUrl').val()) {data.videoUrl = this.$('#videoUrl').val()};
-				if(this.$('#markerCoords').val()) {data.coords = this.$('#markerCoords').val()};
-
+				this.$el.find('#issueDescription').val(description);
+				var data = Backbone.Syphon.serialize(this);
 				this.trigger('form:submit', data);
 			},
 			//метод позволяющий установить маркер на карте

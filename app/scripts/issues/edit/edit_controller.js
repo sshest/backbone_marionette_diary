@@ -18,8 +18,6 @@ define(["app", "issues/edit/edit_view"], function(App, View) {
               //правильнее бы это делать во вью, а не в контроллере
               $.when(shown).done(function() {
                 view.showMap();
-                //а в текстовый редактор передаем содержимое свойства "описание" события
-                document.getElementById('description').contentDocument.body.innerHTML = issue.get('issueDescription');
               });
           
               self.listenTo(view, 'form:submit', function(data) {
